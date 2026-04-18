@@ -9,19 +9,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Setup Node
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: 18
 
-      - name: Install dependencies
-        run: npm install
+      - run: npm install
 
-      - name: Install Expo CLI
-        run: npm install -g expo-cli eas-cli
+      - run: npm install -g expo-cli eas-cli
+
+      - name: Login to Expo
+        run: npx expo login -u ${{ secrets.EXPO_USERNAME }} -p ${{ secrets.EXPO_PASSWORD }}
 
       - name: Build APK
-        run: eas build --platform android --profile preview --non-interactive
+        run: npx eas build --platform android --profile preview --non-interactive
